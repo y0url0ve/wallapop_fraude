@@ -98,27 +98,12 @@ with st.sidebar:
     st.markdown('<div style="text-align:center;padding:1rem 0;"><span style="font-family:Syne,sans-serif;font-size:1.5rem;font-weight:800;color:#ff6b35;">🛡️ FRAUD</span><span style="font-family:Syne,sans-serif;font-size:1.5rem;font-weight:800;color:#ffffff;">DETECTOR</span></div>', unsafe_allow_html=True)
     st.markdown('<div style="text-align:center;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:1.5rem;">Wallapop · Ordenadores</div>', unsafe_allow_html=True)
     import os
-    # Buscar CSV automáticamente en todas las rutas posibles
-    def find_file(filename, search_dirs):
-        for d in search_dirs:
-            p = os.path.join(d, filename)
-            if os.path.exists(p):
-                return p
-        return None
-
-    csv_candidates = [
-        "data/predicciones.csv",
-        "wallapop_fraude/data/predicciones.csv",
-        "wallapop_fraude/wallapop_fraude/data/predicciones.csv",
-    ]
-    model_candidates = ["models", "wallapop_fraude/models", "wallapop_fraude/wallapop_fraude/models"]
-
-    auto_csv = next((p for p in csv_candidates if os.path.exists(p)), "data/predicciones.csv")
-    auto_models = next((p for p in model_candidates if os.path.exists(p)), "models")
-
+    # Usar ruta relativa al propio archivo dashboard.py — funciona en local y en Streamlit Cloud
+    _base = os.path.dirname(os.path.abspath(__file__))
+    auto_csv    = os.path.join(_base, "data", "predicciones.csv")
+    auto_models = os.path.join(_base, "models")
     data_path = st.text_input("📂 CSV predicciones", value=auto_csv)
     model_dir = st.text_input("🤖 Carpeta modelos",  value=auto_models)
-    st.caption(f"Ruta detectada: `{auto_csv}`")
     threshold = st.slider("Umbral de fraude", 0.0, 1.0, 0.5, 0.01)
     st.markdown("---")
     st.markdown('<div style="font-size:0.75rem;color:#64748b;text-align:center;">📍 Foco: Comunitat Valenciana</div>', unsafe_allow_html=True)
