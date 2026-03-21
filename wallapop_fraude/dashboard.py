@@ -97,8 +97,21 @@ def load_data(path): return pd.read_csv(path)
 with st.sidebar:
     st.markdown('<div style="text-align:center;padding:1rem 0;"><span style="font-family:Syne,sans-serif;font-size:1.5rem;font-weight:800;color:#ff6b35;">🛡️ FRAUD</span><span style="font-family:Syne,sans-serif;font-size:1.5rem;font-weight:800;color:#ffffff;">DETECTOR</span></div>', unsafe_allow_html=True)
     st.markdown('<div style="text-align:center;font-size:0.7rem;color:#94a3b8;text-transform:uppercase;letter-spacing:0.15em;margin-bottom:1.5rem;">Wallapop · Ordenadores</div>', unsafe_allow_html=True)
-    data_path = st.text_input("📂 CSV predicciones", value="data/predicciones.csv")
-    model_dir = st.text_input("🤖 Carpeta modelos",  value="models")
+    import os
+    # Detectar ruta automáticamente (local vs Streamlit Cloud)
+    default_csv = "data/predicciones.csv"
+    for candidate in ["data/predicciones.csv", "wallapop_fraude/data/predicciones.csv",
+                      "wallapop_fraude/wallapop_fraude/data/predicciones.csv"]:
+        if os.path.exists(candidate):
+            default_csv = candidate
+            break
+    default_models = "models"
+    for candidate in ["models", "wallapop_fraude/models", "wallapop_fraude/wallapop_fraude/models"]:
+        if os.path.exists(candidate):
+            default_models = candidate
+            break
+    data_path = st.text_input("📂 CSV predicciones", value=default_csv)
+    model_dir = st.text_input("🤖 Carpeta modelos",  value=default_models)
     threshold = st.slider("Umbral de fraude", 0.0, 1.0, 0.5, 0.01)
     st.markdown("---")
     st.markdown('<div style="font-size:0.75rem;color:#64748b;text-align:center;">📍 Foco: Comunitat Valenciana</div>', unsafe_allow_html=True)
@@ -760,123 +773,128 @@ with tab4:
 
 with tab6:
     st.markdown('<div class="section-title">Modelo Entidad-Relación — Wallapop Ordenadores</div>', unsafe_allow_html=True)
-    st.markdown('<div style="color:#94a3b8;font-size:0.85rem;margin-bottom:1.5rem;">Estructura de los datos recolectados por el scraper. 5 entidades principales y sus relaciones.</div>', unsafe_allow_html=True)
+    st.markdown('<div style="color:#94a3b8;font-size:0.85rem;margin-bottom:1.5rem;">Entidades distribuidas en forma de Estrella de David. ANUNCIO en el centro como entidad principal.</div>', unsafe_allow_html=True)
 
     mer_svg = """
-    <div style="background:#1a2540;border-radius:14px;padding:2rem;overflow-x:auto;">
-    <svg width="100%" viewBox="0 0 860 700" xmlns="http://www.w3.org/2000/svg" style="font-family:sans-serif;">
+    <div style="background:#1a2540;border-radius:14px;padding:1.5rem;overflow-x:auto;">
+    <svg width="100%" viewBox="0 0 870 760" xmlns="http://www.w3.org/2000/svg" style="font-family:sans-serif;">
       <defs>
-        <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
           <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round"/>
         </marker>
       </defs>
 
-      <!-- ESTRELLA DE DAVID: 6 puntos
-           Top:        REGION    (430, 30)
-           Top-right:  PREDICCION(660, 160)
-           Bot-right:  IMAGEN    (660, 460)
-           Bottom:     (centro)  ANUNCIO   (430, 340) centro
-           Bot-left:   VENDEDOR  (120, 460)
-           Top-left:   (vacío — solo 5 entidades, distribuidas en 5 de los 6 puntos)
-           Centro:     ANUNCIO
-      -->
+      <!-- ESTRELLA DE DAVID: dos triangulos superpuestos -->
+      <!-- Triangulo hacia arriba: top(435,145) → bottom-right(642,505) → bottom-left(227,505) -->
+      <path d="M 435,145 L 642.8,505 L 227.2,505 Z"
+            fill="rgba(255,107,53,0.06)" stroke="rgba(255,107,53,0.35)" stroke-width="1.5"/>
+      <!-- Triangulo hacia abajo: top-right(642,265) → bottom(435,625) → top-left(227,265) -->
+      <path d="M 642.8,265 L 435,625 L 227.2,265 Z"
+            fill="rgba(255,107,53,0.06)" stroke="rgba(255,107,53,0.35)" stroke-width="1.5"/>
 
-      <!-- ANUNCIO (centro) -->
-      <rect x="310" y="280" width="200" height="200" rx="10" fill="#243044" stroke="#ff6b35" stroke-width="2"/>
-      <rect x="310" y="280" width="200" height="34" rx="10" fill="#ff6b35"/>
-      <rect x="310" y="304" width="200" height="10" fill="#ff6b35"/>
-      <text x="410" y="302" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">ANUNCIO</text>
-      <text x="325" y="328" font-size="10" fill="#cbd5e1">🔑 id (PK)</text>
-      <text x="325" y="344" font-size="10" fill="#cbd5e1">   slug / titulo</text>
-      <text x="325" y="360" font-size="10" fill="#cbd5e1">   precio / url</text>
-      <text x="325" y="376" font-size="10" fill="#cbd5e1">   descripcion</text>
-      <text x="325" y="392" font-size="10" fill="#cbd5e1">   num_imagenes</text>
-      <text x="325" y="408" font-size="10" fill="#cbd5e1">🔗 id_vendedor (FK)</text>
-      <text x="325" y="424" font-size="10" fill="#cbd5e1">   region_busqueda</text>
-      <text x="325" y="456" font-size="10" fill="#cbd5e1">   fecha_scraping</text>
+      <!-- ===== ENTIDADES ===== -->
 
-      <!-- REGION (arriba centro) -->
-      <rect x="320" y="30" width="185" height="120" rx="10" fill="#243044" stroke="#f59e0b" stroke-width="1.5"/>
-      <rect x="320" y="30" width="185" height="34" rx="10" fill="#f59e0b"/>
-      <rect x="320" y="54" width="185" height="10" fill="#f59e0b"/>
-      <text x="412" y="52" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">REGION</text>
-      <text x="335" y="76" font-size="10" fill="#cbd5e1">🔑 nombre (PK)</text>
-      <text x="335" y="92" font-size="10" fill="#cbd5e1">   latitud / longitud</text>
-      <text x="335" y="108" font-size="10" fill="#cbd5e1">   distancia_busqueda</text>
-      <text x="335" y="124" font-size="10" fill="#cbd5e1">   comunidad</text>
+      <!-- REGION — punto TOP (435, 145) -->
+      <rect x="350" y="50" width="170" height="118" rx="10" fill="#1a2540" stroke="#f59e0b" stroke-width="2"/>
+      <rect x="350" y="50" width="170" height="32" rx="10" fill="#f59e0b"/>
+      <rect x="350" y="72"  width="170" height="10" fill="#f59e0b"/>
+      <text x="435" y="71" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">REGION</text>
+      <text x="363" y="96"  font-size="10" fill="#cbd5e1">&#x1F511; nombre (PK)</text>
+      <text x="363" y="112" font-size="10" fill="#cbd5e1">   latitud / longitud</text>
+      <text x="363" y="128" font-size="10" fill="#cbd5e1">   distancia / comunidad</text>
 
-      <!-- PREDICCION (arriba derecha) -->
-      <rect x="630" y="100" width="205" height="230" rx="10" fill="#243044" stroke="#ef4444" stroke-width="1.5"/>
-      <rect x="630" y="100" width="205" height="34" rx="10" fill="#ef4444"/>
-      <rect x="630" y="124" width="205" height="10" fill="#ef4444"/>
-      <text x="732" y="122" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">PREDICCION</text>
-      <text x="645" y="146" font-size="10" fill="#cbd5e1">🔑 id (PK)</text>
-      <text x="645" y="162" font-size="10" fill="#cbd5e1">🔗 id_anuncio (FK)</text>
-      <text x="645" y="178" font-size="10" fill="#cbd5e1">   probabilidad_fraude</text>
-      <text x="645" y="194" font-size="10" fill="#cbd5e1">   es_fraude</text>
-      <text x="645" y="210" font-size="10" fill="#cbd5e1">   score_heuristico</text>
-      <text x="645" y="226" font-size="10" fill="#cbd5e1">   kw_sospechosas</text>
-      <text x="645" y="242" font-size="10" fill="#cbd5e1">   tiene_telefono</text>
-      <text x="645" y="258" font-size="10" fill="#cbd5e1">   precio_bajo</text>
-      <text x="645" y="274" font-size="10" fill="#cbd5e1">   modelo_usado</text>
-      <text x="645" y="290" font-size="10" fill="#cbd5e1">   fecha_prediccion</text>
+      <!-- PREDICCION — punto TOP-RIGHT (642, 265) -->
+      <rect x="660" y="155" width="185" height="220" rx="10" fill="#1a2540" stroke="#ef4444" stroke-width="2"/>
+      <rect x="660" y="155" width="185" height="32" rx="10" fill="#ef4444"/>
+      <rect x="660" y="177" width="185" height="10" fill="#ef4444"/>
+      <text x="752" y="176" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">PREDICCION</text>
+      <text x="673" y="200" font-size="10" fill="#cbd5e1">&#x1F511; id (PK)</text>
+      <text x="673" y="216" font-size="10" fill="#cbd5e1">&#x1F517; id_anuncio (FK)</text>
+      <text x="673" y="232" font-size="10" fill="#cbd5e1">   probabilidad_fraude</text>
+      <text x="673" y="248" font-size="10" fill="#cbd5e1">   es_fraude</text>
+      <text x="673" y="264" font-size="10" fill="#cbd5e1">   score_heuristico</text>
+      <text x="673" y="280" font-size="10" fill="#cbd5e1">   kw_sospechosas</text>
+      <text x="673" y="296" font-size="10" fill="#cbd5e1">   tiene_telefono</text>
+      <text x="673" y="312" font-size="10" fill="#cbd5e1">   modelo_usado</text>
+      <text x="673" y="328" font-size="10" fill="#cbd5e1">   fecha_prediccion</text>
 
-      <!-- VENDEDOR (izquierda) -->
-      <rect x="20" y="200" width="185" height="220" rx="10" fill="#243044" stroke="#22c55e" stroke-width="1.5"/>
-      <rect x="20" y="200" width="185" height="34" rx="10" fill="#22c55e"/>
-      <rect x="20" y="224" width="185" height="10" fill="#22c55e"/>
-      <text x="112" y="222" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">VENDEDOR</text>
-      <text x="35" y="246" font-size="10" fill="#cbd5e1">🔑 id (PK)</text>
-      <text x="35" y="262" font-size="10" fill="#cbd5e1">   nombre</text>
-      <text x="35" y="278" font-size="10" fill="#cbd5e1">   puntuacion</text>
-      <text x="35" y="294" font-size="10" fill="#cbd5e1">   num_valoraciones</text>
-      <text x="35" y="310" font-size="10" fill="#cbd5e1">   dias_cuenta</text>
-      <text x="35" y="326" font-size="10" fill="#cbd5e1">   miembro_desde</text>
-      <text x="35" y="342" font-size="10" fill="#cbd5e1">   verificaciones</text>
-      <text x="35" y="358" font-size="10" fill="#cbd5e1">   articulos_vendidos</text>
-      <text x="35" y="374" font-size="10" fill="#cbd5e1">   ciudad</text>
-      <text x="35" y="390" font-size="10" fill="#cbd5e1">   latitud / longitud</text>
+      <!-- IMAGEN — punto BOTTOM-RIGHT (642, 505) -->
+      <rect x="660" y="460" width="185" height="110" rx="10" fill="#1a2540" stroke="#60a5fa" stroke-width="2"/>
+      <rect x="660" y="460" width="185" height="32" rx="10" fill="#60a5fa"/>
+      <rect x="660" y="482" width="185" height="10" fill="#60a5fa"/>
+      <text x="752" y="481" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">IMAGEN</text>
+      <text x="673" y="505" font-size="10" fill="#cbd5e1">&#x1F511; id (PK)</text>
+      <text x="673" y="521" font-size="10" fill="#cbd5e1">   url</text>
+      <text x="673" y="537" font-size="10" fill="#cbd5e1">   posicion</text>
+      <text x="673" y="553" font-size="10" fill="#cbd5e1">&#x1F517; id_anuncio (FK)</text>
 
-      <!-- IMAGEN (abajo centro) -->
-      <rect x="320" y="560" width="185" height="110" rx="10" fill="#243044" stroke="#60a5fa" stroke-width="1.5"/>
-      <rect x="320" y="560" width="185" height="34" rx="10" fill="#60a5fa"/>
-      <rect x="320" y="584" width="185" height="10" fill="#60a5fa"/>
-      <text x="412" y="582" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">IMAGEN</text>
-      <text x="335" y="606" font-size="10" fill="#cbd5e1">🔑 id (PK)</text>
-      <text x="335" y="622" font-size="10" fill="#cbd5e1">   url</text>
-      <text x="335" y="638" font-size="10" fill="#cbd5e1">   posicion</text>
-      <text x="335" y="654" font-size="10" fill="#cbd5e1">🔗 id_anuncio (FK)</text>
+      <!-- VENDEDOR — punto BOTTOM-LEFT (227, 505) -->
+      <rect x="22" y="395" width="185" height="220" rx="10" fill="#1a2540" stroke="#22c55e" stroke-width="2"/>
+      <rect x="22" y="395" width="185" height="32" rx="10" fill="#22c55e"/>
+      <rect x="22" y="417" width="185" height="10" fill="#22c55e"/>
+      <text x="114" y="416" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">VENDEDOR</text>
+      <text x="35" y="440" font-size="10" fill="#cbd5e1">&#x1F511; id (PK)</text>
+      <text x="35" y="456" font-size="10" fill="#cbd5e1">   nombre</text>
+      <text x="35" y="472" font-size="10" fill="#cbd5e1">   puntuacion</text>
+      <text x="35" y="488" font-size="10" fill="#cbd5e1">   num_valoraciones</text>
+      <text x="35" y="504" font-size="10" fill="#cbd5e1">   dias_cuenta</text>
+      <text x="35" y="520" font-size="10" fill="#cbd5e1">   verificaciones</text>
+      <text x="35" y="536" font-size="10" fill="#cbd5e1">   articulos_vendidos</text>
+      <text x="35" y="552" font-size="10" fill="#cbd5e1">   ciudad</text>
+      <text x="35" y="568" font-size="10" fill="#cbd5e1">   latitud / longitud</text>
 
-      <!-- RELACIONES -->
-      <!-- REGION -> ANUNCIO -->
-      <line x1="412" y1="150" x2="412" y2="280" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr2)"/>
-      <text x="420" y="218" font-size="10" fill="#f59e0b" font-weight="bold">contiene (1—N)</text>
+      <!-- ANUNCIO — CENTRO (435, 385) -->
+      <rect x="335" y="285" width="200" height="210" rx="10" fill="#1a2540" stroke="#ff6b35" stroke-width="2.5"/>
+      <rect x="335" y="285" width="200" height="32" rx="10" fill="#ff6b35"/>
+      <rect x="335" y="307" width="200" height="10" fill="#ff6b35"/>
+      <text x="435" y="306" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">ANUNCIO</text>
+      <text x="348" y="330" font-size="10" fill="#cbd5e1">&#x1F511; id (PK)</text>
+      <text x="348" y="346" font-size="10" fill="#cbd5e1">   slug / titulo</text>
+      <text x="348" y="362" font-size="10" fill="#cbd5e1">   precio / url</text>
+      <text x="348" y="378" font-size="10" fill="#cbd5e1">   descripcion</text>
+      <text x="348" y="394" font-size="10" fill="#cbd5e1">   num_imagenes</text>
+      <text x="348" y="410" font-size="10" fill="#cbd5e1">   estado</text>
+      <text x="348" y="426" font-size="10" fill="#cbd5e1">&#x1F517; id_vendedor (FK)</text>
+      <text x="348" y="442" font-size="10" fill="#cbd5e1">   region_busqueda</text>
+      <text x="348" y="458" font-size="10" fill="#cbd5e1">   fecha_scraping</text>
 
-      <!-- VENDEDOR -> ANUNCIO -->
-      <line x1="205" y1="310" x2="310" y2="350" stroke="#22c55e" stroke-width="2" marker-end="url(#arr2)"/>
-      <text x="215" y="295" font-size="10" fill="#22c55e" font-weight="bold">publica (1—N)</text>
+      <!-- ===== RELACIONES ===== -->
+      <!-- REGION -> ANUNCIO (top -> center) -->
+      <line x1="435" y1="168" x2="435" y2="285" stroke="#f59e0b" stroke-width="1.8" marker-end="url(#a2)"/>
+      <rect x="388" y="214" width="94" height="28" rx="5" fill="#1a2540"/>
+      <text x="435" y="225" text-anchor="middle" font-size="10" fill="#f59e0b" font-weight="bold">contiene</text>
+      <text x="435" y="238" text-anchor="middle" font-size="9" fill="#94a3b8">1 — N</text>
 
-      <!-- ANUNCIO -> PREDICCION -->
-      <line x1="510" y1="330" x2="630" y2="250" stroke="#ef4444" stroke-width="2" marker-end="url(#arr2)"/>
-      <text x="535" y="270" font-size="10" fill="#ef4444" font-weight="bold">recibe (1—1)</text>
+      <!-- VENDEDOR -> ANUNCIO (bottom-left -> center-left) -->
+      <line x1="207" y1="470" x2="335" y2="390" stroke="#22c55e" stroke-width="1.8" marker-end="url(#a2)"/>
+      <rect x="222" y="408" width="80" height="28" rx="5" fill="#1a2540"/>
+      <text x="262" y="419" text-anchor="middle" font-size="10" fill="#22c55e" font-weight="bold">publica</text>
+      <text x="262" y="432" text-anchor="middle" font-size="9" fill="#94a3b8">1 — N</text>
 
-      <!-- ANUNCIO -> IMAGEN -->
-      <line x1="412" y1="480" x2="412" y2="560" stroke="#60a5fa" stroke-width="2" marker-end="url(#arr2)"/>
-      <text x="420" y="525" font-size="10" fill="#60a5fa" font-weight="bold">contiene (1—N)</text>
+      <!-- ANUNCIO -> PREDICCION (center-right -> top-right) -->
+      <line x1="535" y1="345" x2="660" y2="280" stroke="#ef4444" stroke-width="1.8" marker-end="url(#a2)"/>
+      <rect x="556" y="285" width="72" height="28" rx="5" fill="#1a2540"/>
+      <text x="592" y="296" text-anchor="middle" font-size="10" fill="#ef4444" font-weight="bold">recibe</text>
+      <text x="592" y="309" text-anchor="middle" font-size="9" fill="#94a3b8">1 — 1</text>
+
+      <!-- ANUNCIO -> IMAGEN (center-right-bottom -> bottom-right) -->
+      <line x1="535" y1="440" x2="660" y2="490" stroke="#60a5fa" stroke-width="1.8" marker-end="url(#a2)"/>
+      <rect x="553" y="443" width="82" height="28" rx="5" fill="#1a2540"/>
+      <text x="594" y="454" text-anchor="middle" font-size="10" fill="#60a5fa" font-weight="bold">contiene</text>
+      <text x="594" y="467" text-anchor="middle" font-size="9" fill="#94a3b8">1 — N</text>
 
     </svg>
     </div>
     """
     st.markdown(mer_svg, unsafe_allow_html=True)
-
     st.markdown("""
-    <div style="display:flex;gap:2rem;margin-top:1rem;flex-wrap:wrap;">
+    <div style="display:flex;gap:1.5rem;margin-top:1rem;flex-wrap:wrap;align-items:center;">
       <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#22c55e;font-weight:700;">■</span> Vendedor</span>
-      <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#ff6b35;font-weight:700;">■</span> Anuncio</span>
+      <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#ff6b35;font-weight:700;">■</span> Anuncio (centro)</span>
       <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#ef4444;font-weight:700;">■</span> Predicción ML</span>
       <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#60a5fa;font-weight:700;">■</span> Imagen</span>
       <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#f59e0b;font-weight:700;">■</span> Región</span>
-      <span style="font-size:0.82rem;color:#94a3b8;">🔑 PK = Clave primaria &nbsp;|&nbsp; 🔗 FK = Clave foránea</span>
+      <span style="font-size:0.82rem;color:#94a3b8;margin-left:auto;">&#x1F511; PK = Clave primaria &nbsp;|&nbsp; &#x1F517; FK = Clave foránea</span>
     </div>
     """, unsafe_allow_html=True)
 
