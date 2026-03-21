@@ -1,0 +1,10 @@
+{
+  "model": "random_forest",
+  "roc_auc": 0.683,
+  "avg_precision": 0.1493,
+  "cv_roc_auc_mean": 0.9083,
+  "cv_roc_auc_std": 0.0501,
+  "n_train": 452,
+  "n_test": 60,
+  "fraud_rate": 0.06
+}
