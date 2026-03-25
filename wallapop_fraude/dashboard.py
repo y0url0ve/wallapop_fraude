@@ -79,6 +79,21 @@ body [role="option"] { color:#111111 !important; background:#ffffff !important; 
 body [role="option"]:hover { background:#f3f4f6 !important; }
 .stTextInput input { background:#ffffff !important; color:#000000 !important; border-radius:8px !important; }
 .stTextInput input::placeholder { color:#888888 !important; }
+/* Cuadro selecciona anuncio — fondo blanco texto negro */
+div[data-testid="stSelectbox"] > div > div {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+div[data-testid="stSelectbox"] > div > div > div {
+    color: #000000 !important;
+}
+div[data-testid="stSelectbox"] input {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+div[data-testid="stSelectbox"] svg {
+    fill: #000000 !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
