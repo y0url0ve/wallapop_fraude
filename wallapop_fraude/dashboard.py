@@ -100,8 +100,21 @@ with st.sidebar:
     import os
     # Usar ruta relativa al propio archivo dashboard.py — funciona en local y en Streamlit Cloud
     _base = os.path.dirname(os.path.abspath(__file__))
-    auto_csv    = os.path.join(_base, "data", "predicciones.csv")
-    auto_models = os.path.join(_base, "models")
+    # Probar rutas candidatas para el CSV
+    _csv_candidates = [
+        os.path.join(_base, "data", "predicciones.csv"),
+        os.path.join(_base, "..", "data", "predicciones.csv"),
+        "data/predicciones.csv",
+        "wallapop_fraude/data/predicciones.csv",
+    ]
+    auto_csv = next((p for p in _csv_candidates if os.path.exists(p)), os.path.join(_base, "data", "predicciones.csv"))
+    _models_candidates = [
+        os.path.join(_base, "models"),
+        os.path.join(_base, "..", "models"),
+        "models",
+        "wallapop_fraude/models",
+    ]
+    auto_models = next((p for p in _models_candidates if os.path.exists(p)), os.path.join(_base, "models"))
     data_path = st.text_input("📂 CSV predicciones", value=auto_csv)
     model_dir = st.text_input("🤖 Carpeta modelos",  value=auto_models)
     threshold = st.slider("Umbral de fraude", 0.0, 1.0, 0.5, 0.01)
@@ -640,7 +653,13 @@ with tab4:
     # Buscar carpeta plots relativa al dashboard.py
     import os as _os
     _base2 = _os.path.dirname(_os.path.abspath(__file__))
-    pd_dir = Path(_os.path.join(_base2, "plots"))
+    # Probar varias rutas posibles
+    _plots_candidates = [
+        Path(_os.path.join(_base2, "plots")),
+        Path("plots"),
+        Path(_os.path.join(_base2, "..", "plots")),
+    ]
+    pd_dir = next((p for p in _plots_candidates if p.exists()), Path(_os.path.join(_base2, "plots")))
 
     PLOT_INFO = {
         "confusion_matrix": {
