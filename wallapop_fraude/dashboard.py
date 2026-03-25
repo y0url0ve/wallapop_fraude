@@ -77,6 +77,8 @@ body [data-baseweb="menu"] div { color:#111111 !important; }
 body [role="listbox"] * { color:#111111 !important; background:#ffffff; }
 body [role="option"] { color:#111111 !important; background:#ffffff !important; }
 body [role="option"]:hover { background:#f3f4f6 !important; }
+.stTextInput input { background:#ffffff !important; color:#000000 !important; border-radius:8px !important; }
+.stTextInput input::placeholder { color:#888888 !important; }
 </style>
 """, unsafe_allow_html=True)
 
