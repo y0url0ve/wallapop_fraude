@@ -437,14 +437,26 @@ with tab2:
 
 with tab3:
     st.markdown('<div class="section-title">Explorar anuncios</div>', unsafe_allow_html=True)
-    fc1,fc2,fc3 = st.columns([2,1,1])
-    with fc1: filter_type=st.radio("Mostrar:",["Todos","Solo fraudes","Solo legítimos","📍 Solo Comunitat Valenciana"],horizontal=True)
+    fc1,fc2,fc3 = st.columns([3,1,1])
+    with fc1:
+        st.markdown('<div style="color:#ffffff;font-size:0.85rem;margin-bottom:0.4rem;">Filtros (combinables):</div>', unsafe_allow_html=True)
+        frow1, frow2, frow3, frow4 = st.columns(4)
+        with frow1: f_todos    = st.checkbox("Todos",                   value=True)
+        with frow2: f_fraudes  = st.checkbox("⚠️ Solo fraudes",         value=False)
+        with frow3: f_legitimos= st.checkbox("✅ Solo legítimos",       value=False)
+        with frow4: f_valencia = st.checkbox("📍 Comunitat Valenciana", value=False)
     with fc2: min_prob=st.slider("Prob. mínima",0.0,1.0,0.0,0.01) if prob_col else 0.0
     with fc3: search_text=st.text_input("🔍 Buscar título","")
+
     view_df=df.copy()
-    if filter_type=="Solo fraudes" and fraud_col:          view_df=view_df[view_df[fraud_col]==1]
-    if filter_type=="Solo legítimos" and fraud_col:        view_df=view_df[view_df[fraud_col]==0]
-    if filter_type=="📍 Solo Comunitat Valenciana":        view_df=view_df[is_val]
+    # Filtro por clasificación
+    if f_fraudes and not f_legitimos and fraud_col:
+        view_df=view_df[view_df[fraud_col]==1]
+    elif f_legitimos and not f_fraudes and fraud_col:
+        view_df=view_df[view_df[fraud_col]==0]
+    # Filtro por Comunitat Valenciana (combinable con fraudes/legítimos)
+    if f_valencia:
+        view_df=view_df[is_val[view_df.index]]
     if prob_col: view_df=view_df[view_df[prob_col]>=min_prob]
     if search_text: view_df=view_df[view_df["title"].fillna("").str.contains(search_text,case=False)]
     st.markdown(f'<div style="color:#94a3b8;font-size:0.85rem;margin-bottom:0.5rem;">Mostrando <b style="color:#ffffff;">{len(view_df)}</b> anuncios</div>', unsafe_allow_html=True)
@@ -625,6 +637,11 @@ with tab4:
     # ── Gráficas con explicaciones ─────────────────────────────────────────────
     st.markdown('<div class="section-title">Gráficas de evaluación del modelo</div>', unsafe_allow_html=True)
 
+    # Buscar carpeta plots relativa al dashboard.py
+    import os as _os
+    _base2 = _os.path.dirname(_os.path.abspath(__file__))
+    pd_dir = Path(_os.path.join(_base2, "plots"))
+
     PLOT_INFO = {
         "confusion_matrix": {
             "titulo": "Matriz de Confusión",
@@ -696,7 +713,6 @@ with tab4:
         "few_images":             "Pocas imágenes (≤ 1)",
     }
 
-    pd_dir = Path("plots")
     PLOT_NAMES = ["confusion_matrix","roc_curve","pr_curve","feature_importance"]
 
     if pd_dir.exists():
