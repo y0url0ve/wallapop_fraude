@@ -817,243 +817,213 @@ with tab4:
 
 with tab6:
     st.markdown('<div class="section-title">Modelo Entidad-Relación — Wallapop Ordenadores</div>', unsafe_allow_html=True)
-    st.markdown('<div style="color:#94a3b8;font-size:0.85rem;margin-bottom:1.5rem;">Notación Chen. Adaptado al proyecto de detección de fraude en anuncios de ordenadores.</div>', unsafe_allow_html=True)
+    st.markdown('<div style="color:#94a3b8;font-size:0.85rem;margin-bottom:1rem;">Notación Chen. Adaptado al proyecto de detección de fraude en anuncios de ordenadores.</div>', unsafe_allow_html=True)
 
-    mer_svg = """
-    <div style="background:#0f172a;border-radius:14px;padding:1rem;overflow-x:auto;">
-    <svg width="100%" viewBox="0 0 900 820" xmlns="http://www.w3.org/2000/svg" style="font-family:sans-serif;">
+    import streamlit.components.v1 as _components
 
-      <!-- ===== ENTIDADES ===== -->
+    mer_html = """<!DOCTYPE html>
+<html>
+<head>
+<style>
+  body { margin:0; background:#0f172a; }
+  svg { display:block; width:100%; }
+</style>
+</head>
+<body>
+<svg viewBox="0 0 900 820" xmlns="http://www.w3.org/2000/svg" style="font-family:sans-serif;width:100%;">
 
-      <!-- ARTÍCULO (top center) x=375 y=30 w=150 h=40 -->
-      <rect x="375" y="30" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
-      <text x="450" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">ARTÍCULO</text>
+  <!-- LINEAS ENTIDAD-RELACION (primero, detrás) -->
+  <line x1="450" y1="70" x2="450" y2="160" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="450" y1="220" x2="450" y2="290" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="210" y1="310" x2="255" y2="318" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="315" y1="318" x2="375" y2="310" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="525" y1="310" x2="555" y2="318" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="615" y1="318" x2="690" y2="310" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="115" y1="330" x2="115" y2="480" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="115" y1="530" x2="115" y2="590" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="420" y1="330" x2="390" y2="470" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="390" y1="520" x2="385" y2="590" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="480" y1="330" x2="540" y2="470" stroke="#4ade80" stroke-width="1.5"/>
+  <line x1="540" y1="520" x2="565" y2="590" stroke="#4ade80" stroke-width="1.5"/>
 
-      <!-- ANUNCIO (center) x=375 y=290 w=150 h=40 -->
-      <rect x="375" y="290" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2.5"/>
-      <text x="450" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">ANUNCIO</text>
+  <!-- LINEAS ATRIBUTOS ARTÍCULO -->
+  <line x1="418" y1="36" x2="358" y2="16" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="450" y1="30" x2="450" y2="16" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="482" y1="36" x2="555" y2="16" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="510" y1="50" x2="618" y2="26" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
 
-      <!-- VENDEDOR (left) x=60 y=290 w=150 h=40 -->
-      <rect x="60" y="290" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
-      <text x="135" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">VENDEDOR</text>
+  <!-- LINEAS ATRIBUTOS ANUNCIO -->
+  <line x1="415" y1="294" x2="360" y2="270" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="450" y1="290" x2="450" y2="270" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="485" y1="294" x2="535" y2="270" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="510" y1="304" x2="568" y2="292" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="445" y1="330" x2="418" y2="352" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
 
-      <!-- REGIÓN (right) x=690 y=290 w=140 h=40 -->
-      <rect x="690" y="290" width="140" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
-      <text x="760" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">REGIÓN</text>
+  <!-- LINEAS ATRIBUTOS VENDEDOR -->
+  <line x1="88" y1="296" x2="46" y2="272" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="135" y1="290" x2="135" y2="270" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="178" y1="296" x2="220" y2="272" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="68" y1="310" x2="32" y2="310" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="72" y1="322" x2="30" y2="340" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="175" y1="326" x2="210" y2="340" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
 
-      <!-- MÉTODO_PAGO (bottom-left) x=40 y=590 w=150 h=40 -->
-      <rect x="40" y="590" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
-      <text x="115" y="615" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">MÉTODO_PAGO</text>
+  <!-- LINEAS ATRIBUTOS REGIÓN -->
+  <line x1="712" y1="294" x2="675" y2="270" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="760" y1="290" x2="760" y2="270" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="808" y1="294" x2="848" y2="270" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="826" y1="308" x2="865" y2="308" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="822" y1="322" x2="858" y2="340" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
 
-      <!-- PREDICCIÓN ML (bottom-center-left) x=280 y=590 w=160 h=40 -->
-      <rect x="280" y="590" width="160" height="40" rx="6" fill="#1a0a0a" stroke="#ef4444" stroke-width="2"/>
-      <text x="360" y="615" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">PREDICCIÓN ML</text>
+  <!-- LINEAS ATRIBUTOS MÉTODO_PAGO -->
+  <line x1="88" y1="598" x2="52" y2="578" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="115" y1="590" x2="115" y2="574" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
 
-      <!-- COMENTARIO (bottom-center-right) x=520 y=590 w=150 h=40 -->
-      <rect x="520" y="590" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
-      <text x="595" y="615" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">COMENTARIO</text>
+  <!-- LINEAS ATRIBUTOS PREDICCIÓN -->
+  <line x1="305" y1="596" x2="272" y2="576" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="360" y1="590" x2="348" y2="574" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="415" y1="596" x2="440" y2="576" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
 
-      <!-- ===== ROMBOS RELACIONES ===== -->
+  <!-- LINEAS ATRIBUTOS COMENTARIO -->
+  <line x1="545" y1="596" x2="514" y2="576" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="595" y1="590" x2="595" y2="574" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
+  <line x1="645" y1="596" x2="672" y2="576" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
 
-      <!-- aparece (center top, between ARTÍCULO and ANUNCIO) -->
-      <polygon points="450,160 480,190 450,220 420,190" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
-      <text x="450" y="194" text-anchor="middle" font-size="10" fill="#86efac">aparece</text>
+  <!-- ROMBOS RELACIONES -->
+  <polygon points="450,160 482,190 450,220 418,190" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
+  <text x="450" y="194" text-anchor="middle" font-size="10" fill="#86efac">aparece</text>
 
-      <!-- publica (between VENDEDOR and ANUNCIO) -->
-      <polygon points="285,300 315,320 285,340 255,320" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
-      <text x="285" y="324" text-anchor="middle" font-size="10" fill="#86efac">publica</text>
+  <polygon points="285,300 315,320 285,340 255,320" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
+  <text x="285" y="324" text-anchor="middle" font-size="10" fill="#86efac">publica</text>
 
-      <!-- pertenece (between ANUNCIO and REGIÓN) -->
-      <polygon points="585,300 615,320 585,340 555,320" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
-      <text x="585" y="324" text-anchor="middle" font-size="10" fill="#86efac">pertenece</text>
+  <polygon points="585,300 615,320 585,340 555,320" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
+  <text x="585" y="324" text-anchor="middle" font-size="10" fill="#86efac">pertenece</text>
 
-      <!-- utiliza (between VENDEDOR and MÉTODO_PAGO) -->
-      <polygon points="115,480 145,505 115,530 85,505" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
-      <text x="115" y="509" text-anchor="middle" font-size="10" fill="#86efac">utiliza</text>
+  <polygon points="115,480 147,505 115,530 83,505" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
+  <text x="115" y="509" text-anchor="middle" font-size="10" fill="#86efac">utiliza</text>
 
-      <!-- presenta (between ANUNCIO and PREDICCIÓN) -->
-      <polygon points="390,470 420,495 390,520 360,495" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
-      <text x="390" y="499" text-anchor="middle" font-size="10" fill="#86efac">presenta</text>
+  <polygon points="390,470 420,495 390,520 360,495" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
+  <text x="390" y="499" text-anchor="middle" font-size="10" fill="#86efac">presenta</text>
 
-      <!-- contiene (between ANUNCIO and COMENTARIO) -->
-      <polygon points="540,470 570,495 540,520 510,495" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
-      <text x="540" y="499" text-anchor="middle" font-size="10" fill="#86efac">contiene</text>
+  <polygon points="540,470 570,495 540,520 510,495" fill="#0f172a" stroke="#4ade80" stroke-width="1.8"/>
+  <text x="540" y="499" text-anchor="middle" font-size="10" fill="#86efac">contiene</text>
 
-      <!-- ===== LINEAS ENTIDAD-RELACION ===== -->
+  <!-- CARDINALIDADES -->
+  <text x="450" y="148" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">1</text>
+  <text x="450" y="282" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">N</text>
+  <text x="243" y="306" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">1</text>
+  <text x="363" y="306" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">N</text>
+  <text x="543" y="306" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">1</text>
+  <text x="682" y="306" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">N</text>
+  <text x="100" y="468" text-anchor="middle" font-size="10" fill="#fbbf24" font-weight="bold">N:M</text>
+  <text x="374" y="460" text-anchor="middle" font-size="10" fill="#fbbf24" font-weight="bold">1:N</text>
+  <text x="556" y="460" text-anchor="middle" font-size="10" fill="#fbbf24" font-weight="bold">1:N</text>
 
-      <!-- ARTÍCULO — aparece -->
-      <line x1="450" y1="70" x2="450" y2="160" stroke="#4ade80" stroke-width="1.5"/>
-      <!-- aparece — ANUNCIO -->
-      <line x1="450" y1="220" x2="450" y2="290" stroke="#4ade80" stroke-width="1.5"/>
+  <!-- ENTIDADES -->
+  <rect x="375" y="30" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
+  <text x="450" y="55" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">ARTÍCULO</text>
 
-      <!-- VENDEDOR — publica -->
-      <line x1="210" y1="310" x2="255" y2="318" stroke="#4ade80" stroke-width="1.5"/>
-      <!-- publica — ANUNCIO -->
-      <line x1="315" y1="318" x2="375" y2="310" stroke="#4ade80" stroke-width="1.5"/>
+  <rect x="375" y="290" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2.5"/>
+  <text x="450" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">ANUNCIO</text>
 
-      <!-- ANUNCIO — pertenece -->
-      <line x1="525" y1="310" x2="555" y2="318" stroke="#4ade80" stroke-width="1.5"/>
-      <!-- pertenece — REGIÓN -->
-      <line x1="615" y1="318" x2="690" y2="310" stroke="#4ade80" stroke-width="1.5"/>
+  <rect x="60" y="290" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
+  <text x="135" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">VENDEDOR</text>
 
-      <!-- VENDEDOR — utiliza -->
-      <line x1="115" y1="330" x2="115" y2="480" stroke="#4ade80" stroke-width="1.5"/>
-      <!-- utiliza — MÉTODO_PAGO -->
-      <line x1="115" y1="530" x2="115" y2="590" stroke="#4ade80" stroke-width="1.5"/>
+  <rect x="690" y="290" width="140" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
+  <text x="760" y="315" text-anchor="middle" font-size="13" font-weight="bold" fill="#ffffff">REGIÓN</text>
 
-      <!-- ANUNCIO — presenta (curva hacia abajo-izquierda) -->
-      <line x1="420" y1="330" x2="390" y2="470" stroke="#4ade80" stroke-width="1.5"/>
-      <!-- presenta — PREDICCIÓN -->
-      <line x1="390" y1="520" x2="385" y2="590" stroke="#4ade80" stroke-width="1.5"/>
+  <rect x="40" y="590" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
+  <text x="115" y="615" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">MÉTODO_PAGO</text>
 
-      <!-- ANUNCIO — contiene (curva hacia abajo-derecha) -->
-      <line x1="480" y1="330" x2="540" y2="470" stroke="#4ade80" stroke-width="1.5"/>
-      <!-- contiene — COMENTARIO -->
-      <line x1="540" y1="520" x2="565" y2="590" stroke="#4ade80" stroke-width="1.5"/>
+  <rect x="300" y="590" width="160" height="40" rx="6" fill="#1a0a0a" stroke="#ef4444" stroke-width="2"/>
+  <text x="380" y="615" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">PREDICCIÓN ML</text>
 
-      <!-- ===== CARDINALIDADES ===== -->
-      <text x="450" y="148" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">1</text>
-      <text x="450" y="278" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">N</text>
-      <text x="245" y="305" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">1</text>
-      <text x="365" y="305" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">N</text>
-      <text x="543" y="305" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">1</text>
-      <text x="682" y="305" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">N</text>
-      <text x="98" y="470" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">N:M</text>
-      <text x="402" y="460" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">1:N</text>
-      <text x="528" y="460" text-anchor="middle" font-size="11" fill="#fbbf24" font-weight="bold">1:N</text>
+  <rect x="520" y="590" width="150" height="40" rx="6" fill="#14532d" stroke="#4ade80" stroke-width="2"/>
+  <text x="595" y="615" text-anchor="middle" font-size="12" font-weight="bold" fill="#ffffff">COMENTARIO</text>
 
-      <!-- ===== ATRIBUTOS ARTÍCULO ===== -->
-      <line x1="395" y1="30" x2="340" y2="8" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="310" cy="8" rx="42" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="310" y="12" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_artículo</text>
+  <!-- ATRIBUTOS ARTÍCULO -->
+  <ellipse cx="330" cy="10" rx="44" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="330" y="14" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_artículo</text>
+  <ellipse cx="450" cy="10" rx="32" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="450" y="14" text-anchor="middle" font-size="9" fill="#cffafe">modelo</text>
+  <ellipse cx="580" cy="10" rx="30" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="580" y="14" text-anchor="middle" font-size="9" fill="#cffafe">marca</text>
+  <ellipse cx="650" cy="20" rx="42" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="650" y="24" text-anchor="middle" font-size="9" fill="#cffafe">descripción</text>
 
-      <line x1="450" y1="30" x2="450" y2="8" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="450" cy="8" rx="36" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="450" y="12" text-anchor="middle" font-size="9" fill="#cffafe">modelo</text>
+  <!-- ATRIBUTOS ANUNCIO -->
+  <ellipse cx="330" cy="260" rx="42" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="330" y="264" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_anuncio</text>
+  <ellipse cx="450" cy="260" rx="28" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="450" y="264" text-anchor="middle" font-size="9" fill="#cffafe">precio</text>
+  <ellipse cx="556" cy="258" rx="28" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="556" y="262" text-anchor="middle" font-size="9" fill="#cffafe">título</text>
+  <ellipse cx="612" cy="280" rx="42" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="612" y="284" text-anchor="middle" font-size="9" fill="#cffafe">descripción</text>
+  <ellipse cx="400" cy="362" rx="48" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="400" y="366" text-anchor="middle" font-size="9" fill="#cffafe">fecha_scraping</text>
 
-      <line x1="505" y1="30" x2="560" y2="8" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="592" cy="8" rx="36" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="592" y="12" text-anchor="middle" font-size="9" fill="#cffafe">marca</text>
+  <!-- ATRIBUTOS VENDEDOR -->
+  <ellipse cx="28" cy="260" rx="42" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="28" y="264" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_vendedor</text>
+  <ellipse cx="135" cy="258" rx="32" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="135" y="262" text-anchor="middle" font-size="9" fill="#cffafe">nombre</text>
+  <ellipse cx="244" cy="260" rx="36" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="244" y="264" text-anchor="middle" font-size="9" fill="#cffafe">valoración</text>
+  <ellipse cx="18" cy="308" rx="26" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="18" y="312" text-anchor="middle" font-size="8" fill="#cffafe">reviews</text>
+  <ellipse cx="14" cy="348" rx="30" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="14" y="352" text-anchor="middle" font-size="8" fill="#cffafe">antigüedad</text>
+  <ellipse cx="224" cy="348" rx="28" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="224" y="352" text-anchor="middle" font-size="8" fill="#cffafe">ciudad</text>
 
-      <line x1="525" y1="45" x2="665" y2="25" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="700" cy="20" rx="42" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="700" y="24" text-anchor="middle" font-size="9" fill="#cffafe">descripción</text>
+  <!-- ATRIBUTOS REGIÓN -->
+  <ellipse cx="656" cy="258" rx="36" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="656" y="262" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_región</text>
+  <ellipse cx="760" cy="258" rx="28" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="760" y="262" text-anchor="middle" font-size="9" fill="#cffafe">nombre</text>
+  <ellipse cx="866" cy="258" rx="28" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="866" y="262" text-anchor="middle" font-size="9" fill="#cffafe">ciudad</text>
+  <ellipse cx="880" cy="306" rx="36" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="880" y="310" text-anchor="middle" font-size="9" fill="#cffafe">comunidad</text>
+  <ellipse cx="876" cy="348" rx="36" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="876" y="352" text-anchor="middle" font-size="9" fill="#cffafe">cod_postal</text>
 
-      <!-- ===== ATRIBUTOS ANUNCIO ===== -->
-      <line x1="420" y1="290" x2="360" y2="268" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="326" cy="260" rx="42" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="326" y="264" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_anuncio</text>
+  <!-- ATRIBUTOS MÉTODO_PAGO -->
+  <ellipse cx="40" cy="564" rx="38" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="40" y="568" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_método</text>
+  <ellipse cx="115" cy="562" rx="22" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="115" y="566" text-anchor="middle" font-size="9" fill="#cffafe">tipo</text>
 
-      <line x1="450" y1="290" x2="450" y2="268" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="450" cy="256" rx="32" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="450" y="260" text-anchor="middle" font-size="9" fill="#cffafe">precio</text>
+  <!-- ATRIBUTOS PREDICCIÓN -->
+  <ellipse cx="255" cy="563" rx="38" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="255" y="567" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_pred</text>
+  <ellipse cx="345" cy="562" rx="38" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="345" y="566" text-anchor="middle" font-size="9" fill="#cffafe">prob_fraude</text>
+  <ellipse cx="448" cy="563" rx="36" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="448" y="567" text-anchor="middle" font-size="9" fill="#cffafe">tipo_fraude</text>
 
-      <line x1="480" y1="290" x2="540" y2="268" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="572" cy="258" rx="34" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="572" y="262" text-anchor="middle" font-size="9" fill="#cffafe">título</text>
+  <!-- ATRIBUTOS COMENTARIO -->
+  <ellipse cx="498" cy="563" rx="38" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="498" y="567" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_coment</text>
+  <ellipse cx="595" cy="562" rx="36" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="595" y="566" text-anchor="middle" font-size="9" fill="#cffafe">contenido</text>
+  <ellipse cx="686" cy="563" rx="36" ry="13" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
+  <text x="686" y="567" text-anchor="middle" font-size="9" fill="#cffafe">valoración</text>
 
-      <line x1="500" y1="300" x2="570" y2="290" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="612" cy="285" rx="42" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="612" y="289" text-anchor="middle" font-size="9" fill="#cffafe">descripción</text>
+</svg>
+</body>
+</html>"""
 
-      <line x1="440" y1="330" x2="415" y2="352" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="400" cy="364" rx="48" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="400" y="368" text-anchor="middle" font-size="9" fill="#cffafe">fecha_scraping</text>
-
-      <!-- ===== ATRIBUTOS VENDEDOR ===== -->
-      <line x1="90" y1="290" x2="50" y2="265" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="28" cy="255" rx="42" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="28" y="259" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_vendedor</text>
-
-      <line x1="135" y1="290" x2="135" y2="268" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="135" cy="256" rx="34" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="135" y="260" text-anchor="middle" font-size="9" fill="#cffafe">nombre</text>
-
-      <line x1="175" y1="290" x2="215" y2="268" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="248" cy="258" rx="38" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="248" y="262" text-anchor="middle" font-size="9" fill="#cffafe">valoración</text>
-
-      <line x1="65" y1="310" x2="22" y2="310" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="8" cy="310" rx="20" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="8" y="314" text-anchor="middle" font-size="8" fill="#cffafe">reviews</text>
-
-      <line x1="70" y1="325" x2="22" y2="345" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="10" cy="356" rx="28" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="10" y="360" text-anchor="middle" font-size="8" fill="#cffafe">antigüedad</text>
-
-      <line x1="160" y1="330" x2="200" y2="352" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="218" cy="364" rx="30" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="218" y="368" text-anchor="middle" font-size="9" fill="#cffafe">ciudad</text>
-
-      <!-- ===== ATRIBUTOS REGIÓN ===== -->
-      <line x1="715" y1="290" x2="690" y2="268" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="676" cy="256" rx="38" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="676" y="260" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_región</text>
-
-      <line x1="760" y1="290" x2="760" y2="268" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="760" cy="256" rx="30" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="760" y="260" text-anchor="middle" font-size="9" fill="#cffafe">nombre</text>
-
-      <line x1="805" y1="290" x2="840" y2="268" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="862" cy="256" rx="30" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="862" y="260" text-anchor="middle" font-size="9" fill="#cffafe">ciudad</text>
-
-      <line x1="820" y1="305" x2="868" y2="305" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="896" cy="305" rx="38" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="896" y="309" text-anchor="middle" font-size="9" fill="#cffafe">comunidad</text>
-
-      <line x1="820" y1="320" x2="862" y2="335" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="878" cy="346" rx="34" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="878" y="350" text-anchor="middle" font-size="9" fill="#cffafe">cod_postal</text>
-
-      <!-- ===== ATRIBUTOS MÉTODO_PAGO ===== -->
-      <line x1="80" y1="590" x2="55" y2="568" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="40" cy="556" rx="38" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="40" y="560" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_método</text>
-
-      <line x1="115" y1="590" x2="115" y2="568" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="115" cy="556" rx="26" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="115" y="560" text-anchor="middle" font-size="9" fill="#cffafe">tipo</text>
-
-      <!-- ===== ATRIBUTOS PREDICCIÓN ===== -->
-      <line x1="310" y1="590" x2="282" y2="568" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="260" cy="556" rx="38" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="260" y="560" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_prediccion</text>
-
-      <line x1="360" y1="590" x2="340" y2="568" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="325" cy="556" rx="38" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="325" y="560" text-anchor="middle" font-size="9" fill="#cffafe">prob_fraude</text>
-
-      <line x1="410" y1="590" x2="435" y2="568" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="455" cy="556" rx="36" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="455" y="560" text-anchor="middle" font-size="9" fill="#cffafe">tipo_fraude</text>
-
-      <!-- ===== ATRIBUTOS COMENTARIO ===== -->
-      <line x1="545" y1="590" x2="520" y2="568" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="498" cy="556" rx="40" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="498" y="560" text-anchor="middle" font-size="9" fill="#cffafe" text-decoration="underline">id_comentario</text>
-
-      <line x1="595" y1="590" x2="595" y2="568" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="595" cy="556" rx="36" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="595" y="560" text-anchor="middle" font-size="9" fill="#cffafe">contenido</text>
-
-      <line x1="640" y1="590" x2="662" y2="568" stroke="#22d3ee" stroke-width="0.8" stroke-dasharray="4,2"/>
-      <ellipse cx="680" cy="556" rx="36" ry="12" fill="#0e5e6f" stroke="#22d3ee" stroke-width="1"/>
-      <text x="680" y="560" text-anchor="middle" font-size="9" fill="#cffafe">valoración</text>
-
-    </svg>
-    </div>
-    """
-    st.markdown(mer_svg, unsafe_allow_html=True)
+    _components.html(mer_html, height=700, scrolling=False)
 
     st.markdown("""
-    <div style="display:flex;gap:2rem;margin-top:1rem;flex-wrap:wrap;align-items:center;">
+    <div style="display:flex;gap:2rem;margin-top:0.5rem;flex-wrap:wrap;align-items:center;">
       <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#4ade80;font-weight:700;">■</span> Entidad</span>
       <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#22d3ee;font-weight:700;">⬭</span> Atributo</span>
       <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#4ade80;font-weight:700;">◇</span> Relación</span>
       <span style="font-size:0.82rem;color:#ffffff;"><span style="color:#ef4444;font-weight:700;">■</span> Predicción ML</span>
-      <span style="font-size:0.82rem;color:#fbbf24;font-weight:700;">1, N, N:M</span><span style="font-size:0.82rem;color:#ffffff;"> = Cardinalidades</span>
-      <span style="font-size:0.82rem;color:#94a3b8;">Atributos subrayados = clave primaria (PK)</span>
+      <span style="font-size:0.82rem;color:#fbbf24;font-weight:700;">1, N, N:M</span><span style="font-size:0.82rem;color:#ffffff;"> Cardinalidades</span>
+      <span style="font-size:0.82rem;color:#94a3b8;">Subrayado = clave primaria (PK)</span>
     </div>
     """, unsafe_allow_html=True)
 
